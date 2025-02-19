@@ -14,7 +14,24 @@ function addTodo() {
     const todoText = todoInput.value.trim();
     if (todoText.length > 0){
         allTodos.push(todoText);
+        updateTodoList();
+        createTodoItem(todoText);
         todoInput.value = '';
     }
     
+}
+
+//update TodoList
+function updateTodoList() {
+    todoList.innerHTML = '';
+    allTodos.forEach((todo, todoIndex)=> {
+        todoItem = createTodoItem(todo, todoIndex);
+        todoList.append(todoItem);
+    })
+}
+function createTodoItem(todo) {
+    const todoLi = document.createElement('li');
+    todoLi.innerText = todo;
+    todoList.appendChild(todoLi);
+    return todoItem;
 }
