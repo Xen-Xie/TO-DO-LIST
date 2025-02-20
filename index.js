@@ -1,7 +1,8 @@
 const todoForm = document.querySelector('form') 
 const todoInput = document.querySelector('#todoInput'); 
 const todoList = document.querySelector('#todoList');
-let allTodos = [];
+let allTodos = getTodos();
+updateTodoList(allTodos, todoList);
 
 //Event listener for Add button click
 todoForm.addEventListener('submit', function (e){
@@ -15,6 +16,7 @@ function addTodo() {
     if (todoText.length > 0){
         allTodos.push(todoText);
         updateTodoList();
+        saveTodo();
         todoInput.value = '';
     }
     
@@ -54,4 +56,14 @@ function createTodoItem(todo, todoIndex) {
     </li>
 `
     return todoLi;
+}
+//Save Todo list in local Storage
+function saveTodo(){
+    const todosJson = JSON.stringify(allTodos);
+    localStorage.setItem('todos', todosJson);
+}
+
+function getTodos(){
+    const todos = localStorage.getItem('todos') || "[]";
+    return JSON.parse(todos);
 }
