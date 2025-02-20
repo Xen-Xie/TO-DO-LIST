@@ -53,7 +53,7 @@ function createTodoItem(todo, todoIndex) {
             </svg>
         </label>
         <label for="checkbox-${todoId}" class="p-15px pr-0 flex-grow peer-checked:line-through peer-checked:text-[#4A4D57] transition-all duration-200 ml-3">
-            ${todoText} //text from the parameter
+            ${todoText} <!--text from the parameter-->
         </label>
         <button id="deleteButton" class="p-[3px] bg-none border-none flex justify-center cursor-pointer">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="h-[24px] fill-[#4A4D57] hover:fill-[#ff0033] transition-all duration-300">
