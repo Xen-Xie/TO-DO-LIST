@@ -1,26 +1,26 @@
 const todoForm = document.querySelector('form') 
 const todoInput = document.querySelector('#todoInput'); 
 const todoList = document.querySelector('#todoList');
-let allTodos = getTodos();
-updateTodoList(allTodos, todoList);
+let allTodos = getTodos(); //To-do Will be store Here
+updateTodoList(allTodos, todoList); //to visible todo list on the page
 
 //Event listener for Add button click
 todoForm.addEventListener('submit', function (e){
     e.preventDefault();
-    addTodo();
+    addTodo(); //add todo to the list function
 })
 
 //Add ToDo Function to fill the array
 function addTodo() {
-    const todoText = todoInput.value.trim();
+    const todoText = todoInput.value.trim(); //to-do text user input
     if (todoText.length > 0){
         const todoObject = {
             text: todoText,
             completed: false
-        }
+        } //to-do object
         allTodos.push(todoObject);
         updateTodoList();
-        saveTodo();
+        saveTodo(); //to-dos will be saved in the local storage
         todoInput.value = '';
     }
     
@@ -28,17 +28,19 @@ function addTodo() {
 
 //update TodoList
 function updateTodoList() {
-    todoList.innerHTML = '';
+    todoList.innerHTML = ''; //recreate everytime the list changes
     allTodos.forEach((todo, todoIndex)=> {
         todoItem = createTodoItem(todo, todoIndex);
-        todoList.append(todoItem);
+        todoList.append(todoItem); //to itarate over all the items of the array
     })
-}
+} //call this function everytime the array changes
+
+
 //Main Function to create a new TodoList
 function createTodoItem(todo, todoIndex) {
     const todoLi = document.createElement('li');
-    const todoText = todo.text;
-    const todoId = 'todo-'+todoIndex;
+    const todoText = todo.text; //to read the objet from the text
+    const todoId = 'todo-'+todoIndex; //template string
     todoLi.className = "todo";
 
     todoLi.innerHTML = ` 
@@ -51,7 +53,7 @@ function createTodoItem(todo, todoIndex) {
             </svg>
         </label>
         <label for="checkbox-${todoId}" class="p-15px pr-0 flex-grow peer-checked:line-through peer-checked:text-[#4A4D57] transition-all duration-200 ml-3">
-            ${todoText}
+            ${todoText} //text from the parameter
         </label>
         <button id="deleteButton" class="p-[3px] bg-none border-none flex justify-center cursor-pointer">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="h-[24px] fill-[#4A4D57] hover:fill-[#ff0033] transition-all duration-300">
@@ -60,19 +62,21 @@ function createTodoItem(todo, todoIndex) {
         </button>
     </li>
 `
- //todo Delete Button
+//delete button
     const deleteButton = todoLi.querySelector('#deleteButton');
     deleteButton.addEventListener('click', function (){
-        deleteTodoItem(todoIndex);
+        deleteTodoItem(todoIndex); //which todo item to delete
     });
     const checkbox = todoLi.querySelector('input');
     checkbox.addEventListener('change', ()=>{
         allTodos[todoIndex].completed = checkbox.checked;
         saveTodo();
-    });
-    checkbox.checked = todo.completed;
-    return todoLi;
+    }); //change the completed property
+    checkbox.checked = todo.completed; //display the completed in the page
+    return todoLi; //the function will return todo list item
 }
+
+//overwrite the array of todo items by filtering
 function deleteTodoItem(todoIndex){
     allTodos = allTodos.filter((_,i)=> i !== todoIndex);
     saveTodo();
@@ -80,11 +84,12 @@ function deleteTodoItem(todoIndex){
 }
 //Save Todo list in local Storage
 function saveTodo(){
-    const todosJson = JSON.stringify(allTodos);
-    localStorage.setItem('todos', todosJson);
+    const todosJson = JSON.stringify(allTodos); //Convert array to JSON string
+    localStorage.setItem('todos', todosJson); //this will save the todo list in localStorage
 }
 
+//store the todo when checked
 function getTodos(){
     const todos = localStorage.getItem('todos') || "[]";
-    return JSON.parse(todos);
-}
+    return JSON.parse(todos); //convert javascript array to string
+} //this will load the todo list from localStorage
